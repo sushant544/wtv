@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ff">
+  <title>Teen Shelf — Your next favorite book</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #24233a;
+      --muted: #716f82;
+      --paper: #fff;
+      --purple: #7867ee;
+      --line: #e7e5f1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 4% 5%, #e8e4ff 0, transparent 30rem),
+        radial-gradient(ellipse at 96% 28%, #ffe6eb 0, transparent 28rem),
+        #f7f5ff;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    .page {
+      width: min(1120px, 100%);
+      margin-inline: auto;
+      padding: 24px clamp(18px, 5vw, 58px) 56px;
+      perspective: 1400px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--ink);
+      font-size: 15px;
+      letter-spacing: -.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 31px;
+      height: 31px;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--purple);
+      box-shadow: 0 3px 0 #5142be;
+      color: white;
+      font-size: 17px;
+    }
+
+    header {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: clamp(56px, 10vw, 100px) 0 42px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 13px;
+      border: 1px solid #d5d0ff;
+      border-radius: 999px;
+      background: #eeebff;
+      color: #5647c4;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 22px 0 16px;
+      font-size: clamp(3rem, 8.5vw, 6.4rem);
+      line-height: .96;
+      letter-spacing: -.075em;
+    }
+
+    h1 span {
+      color: var(--purple);
+      text-shadow: 0 4px 0 #d9d4ff;
+    }
+
+    .intro {
+      max-width: 520px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 820px;
+      margin: 0 auto 32px;
+      padding: 15px 18px;
+      border: 1px solid #f1dfaa;
+      border-radius: 12px;
+      background: #fff9e9;
+      color: #67511e;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .notice-icon { flex: 0 0 auto; }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 18px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.04em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .book {
+      --cover: #ffb6c8;
+      position: relative;
+      display: flex;
+      min-height: 270px;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--paper);
+      box-shadow: 0 5px 0 #dfdced, 0 12px 28px rgb(46 39 99 / 7%);
+      transition: transform .2s ease, box-shadow .2s ease;
+      transform-style: preserve-3d;
+    }
+
+    .book::after {
+      position: absolute;
+      top: -32px;
+      right: -34px;
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: var(--cover);
+      content: "";
+      opacity: .25;
+      transform: translateZ(-1px);
+    }
+
+    .book:nth-child(4n + 2) { --cover: #98d7ff; }
+    .book:nth-child(4n + 3) { --cover: #ffe083; }
+    .book:nth-child(4n) { --cover: #9ce0bd; }
+
+    .book:hover {
+      box-shadow: 0 8px 0 #dfdced, 0 20px 34px rgb(46 39 99 / 13%);
+      transform: translateY(-5px) rotateX(2deg);
+    }
+
+    .number {
+      position: absolute;
+      z-index: 1;
+      top: 16px;
+      right: 17px;
+      color: #8d8a9c;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    .cover {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      width: 74px;
+      height: 96px;
+      place-items: center;
+      margin: 0 0 19px 3px;
+      padding: 8px;
+      border: 1px solid rgb(36 35 58 / 20%);
+      border-left: 6px solid rgb(36 35 58 / 16%);
+      border-radius: 4px 8px 8px 4px;
+      background: linear-gradient(145deg, #fff 0 7%, var(--cover) 7% 100%);
+      box-shadow: 5px 6px 0 rgb(36 35 58 / 16%), 8px 9px 13px rgb(36 35 58 / 10%);
+      color: #302d49;
+      font-size: 10px;
+      font-weight: 900;
+      line-height: 1.2;
+      text-align: center;
+      transform: rotate(-3deg) translateZ(12px);
+    }
+
+    .book h3 {
+      margin: 0 0 5px;
+      font-size: 17px;
+      line-height: 1.3;
+      letter-spacing: -.025em;
+    }
+
+    .author {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card-bottom {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 20px;
+    }
+
+    .price {
+      margin: 0;
+      color: #5142be;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .link {
+      display: inline-block;
+      padding: 9px 11px;
+      border-radius: 8px;
+      background: var(--ink);
+      box-shadow: 0 3px 0 #11101c;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .link:hover {
+      box-shadow: 0 1px 0 #11101c;
+      transform: translateY(2px);
+    }
+
+    .link:focus-visible {
+      outline: 3px solid #a69bff;
+      outline-offset: 3px;
+    }
+
+    footer {
+      margin-top: 32px;
+      padding-top: 18px;
+      border-top: 1px solid #e7e5f1;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+      .book { min-height: 260px; padding: 17px; }
+    }
+
+    @media (max-width: 480px) {
+      .page { padding-inline: 16px; }
+      header { padding-top: 58px; }
+      .grid { grid-template-columns: 1fr; gap: 13px; }
+      .book {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: 68px minmax(0, 1fr);
+        grid-template-rows: auto auto 1fr;
+        column-gap: 16px;
+        padding: 17px;
+      }
+      .cover { grid-row: 1 / 4; width: 66px; height: 88px; margin: 0; }
+      .book h3 { align-self: end; padding-right: 28px; }
+      .author { align-self: start; }
+      .card-bottom { grid-column: 2; margin-top: 12px; padding-top: 0; }
+      .section-heading { align-items: start; flex-direction: column; }
+      .notice { font-size: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="topline">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span> Teen Shelf</div>
+      <span>A little inspiration for your next read</span>
+    </div>
+
+    <header>
+      <span class="eyebrow">The teen reading list</span>
+      <h1>Find your next<br><span>favorite.</span></h1>
+      <p class="intro">Ten memorable stories for teen readers, from dystopian adventures to heartfelt coming-of-age books.</p>
+    </header>
+
+    <aside class="notice">
+      <span class="notice-icon" aria-hidden="true">ⓘ</span>
+      <span><strong>Price note:</strong> These are rough paperback estimates, not live Barnes &amp; Noble prices. Prices vary by edition and may change. Check each listing for the current price; this is not a verified cheapest-books ranking.</span>
+    </aside>
+
+    <section aria-labelledby="books-heading">
+      <div class="section-heading">
+        <h2 id="books-heading">Stories to get lost in</h2>
+        <p>10 reader-favorite picks</p>
+      </div>
+      <div class="grid">
+        <article class="book">
+          <span class="number">01</span><div class="cover" aria-hidden="true">A<br>WRINKLE<br>IN TIME</div>
+          <h3>A Wrinkle in Time</h3><p class="author">Madeleine L’Engle</p>
+          <div class="card-bottom"><p class="price">~ $7.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=A%20Wrinkle%20in%20Time%20Madeleine%20Lengle" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">02</span><div class="cover" aria-hidden="true">A GOOD<br>KIND OF<br>TROUBLE</div>
+          <h3>A Good Kind of Trouble</h3><p class="author">Lisa Moore Ramée</p>
+          <div class="card-bottom"><p class="price">~ $8.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=A%20Good%20Kind%20of%20Trouble%20Lisa%20Moore%20Ram%C3%A9e" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">03</span><div class="cover" aria-hidden="true">THE<br>GIVER</div>
+          <h3>The Giver</h3><p class="author">Lois Lowry</p>
+          <div class="card-bottom"><p class="price">~ $9.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Giver%20Lois%20Lowry" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">04</span><div class="cover" aria-hidden="true">THE<br>OUTSIDERS</div>
+          <h3>The Outsiders</h3><p class="author">S. E. Hinton</p>
+          <div class="card-bottom"><p class="price">~ $9.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Outsiders%20S%20E%20Hinton" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">05</span><div class="cover" aria-hidden="true">LONG<br>WAY DOWN</div>
+          <h3>Long Way Down</h3><p class="author">Jason Reynolds</p>
+          <div class="card-bottom"><p class="price">~ $10.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=Long%20Way%20Down%20Jason%20Reynolds" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">06</span><div class="cover" aria-hidden="true">THE<br>MAZE<br>RUNNER</div>
+          <h3>The Maze Runner</h3><p class="author">James Dashner</p>
+          <div class="card-bottom"><p class="price">~ $10.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Maze%20Runner%20James%20Dashner" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">07</span><div class="cover" aria-hidden="true">THE<br>HUNGER<br>GAMES</div>
+          <h3>The Hunger Games</h3><p class="author">Suzanne Collins</p>
+          <div class="card-bottom"><p class="price">~ $12.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Hunger%20Games%20Suzanne%20Collins" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">08</span><div class="cover" aria-hidden="true">THE<br>HATE U<br>GIVE</div>
+          <h3>The Hate U Give</h3><p class="author">Angie Thomas</p>
+          <div class="card-bottom"><p class="price">~ $13.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Hate%20U%20Give%20Angie%20Thomas" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">09</span><div class="cover" aria-hidden="true">THE<br>FAULT IN<br>OUR STARS</div>
+          <h3>The Fault in Our Stars</h3><p class="author">John Green</p>
+          <div class="card-bottom"><p class="price">~ $13.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Fault%20in%20Our%20Stars%20John%20Green" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+        <article class="book">
+          <span class="number">10</span><div class="cover" aria-hidden="true">THE<br>BOOK<br>THIEF</div>
+          <h3>The Book Thief</h3><p class="author">Markus Zusak</p>
+          <div class="card-bottom"><p class="price">~ $14.99</p><a class="link" href="https://www.barnesandnoble.com/search?q=The%20Book%20Thief%20Markus%20Zusak" target="_blank" rel="noopener noreferrer">Check price ↗</a></div>
+        </article>
+      </div>
+    </section>
+
+    <footer>Book suggestions are for discovery. Edition, availability, and price are set by the retailer.</footer>
+  </main>
+</body>
+</html>
+
+
